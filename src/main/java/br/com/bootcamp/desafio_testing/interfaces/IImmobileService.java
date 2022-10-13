@@ -1,5 +1,7 @@
 package br.com.bootcamp.desafio_testing.interfaces;
 
-public interface IImmobileService {
+import java.math.BigDecimal;
 
+public interface IImmobileService {
+    BigDecimal getPrice(long immobileId);
 }
