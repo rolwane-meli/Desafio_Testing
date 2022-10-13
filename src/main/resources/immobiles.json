@@ -1,0 +1,31 @@
+[
+  {
+    "name": "Imóvel 01",
+    "district": {
+      "name": "Bairro 01",
+      "valueDistrictM2": 10000.0
+    },
+    "roomList": [
+      {
+        "name": "Cozinha",
+        "width": 5.5,
+        "length": 4.0
+      },
+      {
+        "name": "Quarto",
+        "width": 8.0,
+        "length": 5.0
+      },
+      {
+        "name": "Banheiro",
+        "width": 2.5,
+        "length": 2.5
+      },
+      {
+        "name": "Sala",
+        "width": 4.0,
+        "length": 3.0
+      }
+    ]
+  }
+]
