@@ -1,20 +1,64 @@
 package br.com.bootcamp.desafio_testing.service;
 
 import br.com.bootcamp.desafio_testing.dto.ImmobileDTO;
+import br.com.bootcamp.desafio_testing.exception.NotFoundException;
 import br.com.bootcamp.desafio_testing.interfaces.IImmobileRepo;
 import br.com.bootcamp.desafio_testing.interfaces.IImmobileService;
 import br.com.bootcamp.desafio_testing.model.Immobile;
 import br.com.bootcamp.desafio_testing.model.Room;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import br.com.bootcamp.desafio_testing.model.Immobile;
+import br.com.bootcamp.desafio_testing.model.Room;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
+import java.math.BigDecimal;
 import java.util.Optional;
 
 @Service
 public class ImmobileService implements IImmobileService {
+    @Autowired
+    private IImmobileRepo repo;
+    @Override
+    public Room getBiggestRoom(long idImmobile) {
+        Optional<Immobile> immobile = repo.getById(idImmobile);
+        List<Room> roomList = immobile.get().getRoomList();
+        double area = 0;
+        Room biggestRoom = null;
+
+        for (Room r: roomList) {
+            double a = calculateRoomArea(r);
+            if(a > area) {
+                area = a;
+                biggestRoom = r;
+            }
+        }
+        return biggestRoom;
+    }
+
+    @Override
+    public BigDecimal getPrice(long immobileId) {
+        Optional<Immobile> immobile = repo.getById(immobileId);
+        BigDecimal totalPrice =  new BigDecimal(0);
+
+        if(immobile.isEmpty())
+            throw new NotFoundException("Imóvel do Id: " + immobile + " não encontrado");
+
+        for (Room room: immobile.get().getRoomList()) {
+            BigDecimal roomArea = new BigDecimal(calculateRoomArea(room));
+            BigDecimal roomPrice = immobile.get().getDistrict().getValueDistrictM2().multiply(roomArea);
+
+            totalPrice = totalPrice.add(roomPrice);
+        }
+
+        return totalPrice;
+    }
 
     @Autowired
     IImmobileRepo repo;
+    
     @Override
     public ImmobileDTO getImmobile(String immobileName) throws ClassNotFoundException {
         Optional<Immobile> immobile = repo.getImmobile(immobileName);
@@ -34,5 +78,7 @@ public class ImmobileService implements IImmobileService {
         return totalArea;
     }
 
-
+    private double calculateRoomArea(Room room){
+        return room.getLength() * room.getWidth();
+    }
 }

@@ -1,6 +1,7 @@
 [
   {
-    "name": "Imovel 01",
+    "id": 1,
+    "name": "Imóvel 01",
     "district": {
       "name": "Bairro 01",
       "valueDistrictM2": 10000.0
