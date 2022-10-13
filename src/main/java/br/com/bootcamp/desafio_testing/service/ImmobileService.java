@@ -1,18 +1,14 @@
 package br.com.bootcamp.desafio_testing.service;
 
+import br.com.bootcamp.desafio_testing.dto.ImmobileDTO;
 import br.com.bootcamp.desafio_testing.exception.NotFoundException;
 import br.com.bootcamp.desafio_testing.interfaces.IImmobileRepo;
 import br.com.bootcamp.desafio_testing.interfaces.IImmobileService;
 import br.com.bootcamp.desafio_testing.model.Immobile;
 import br.com.bootcamp.desafio_testing.model.Room;
-import br.com.bootcamp.desafio_testing.model.Immobile;
-import br.com.bootcamp.desafio_testing.model.Room;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
-import java.util.concurrent.atomic.AtomicReference;
-
 import java.math.BigDecimal;
 import java.util.Optional;
 
@@ -53,6 +49,25 @@ public class ImmobileService implements IImmobileService {
         }
 
         return totalPrice;
+    }
+
+    @Override
+    public ImmobileDTO getImmobileTotalArea(long id) throws ClassNotFoundException {
+        Optional<Immobile> immobile = repo.getById(id);
+        if (immobile.isEmpty()) {
+            throw new NotFoundException("Esse imóvel nao existe");
+        }
+
+        return new ImmobileDTO(immobile.get(),calculateTotalArea(immobile.get()));
+    }
+
+    private double calculateTotalArea(Immobile immobile){
+       double totalArea = 0;
+
+        for (Room room: immobile.getRoomList()) {
+            totalArea += this.calculateRoomArea(room);
+        }
+        return totalArea;
     }
 
     private double calculateRoomArea(Room room){
