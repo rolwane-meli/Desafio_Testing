@@ -5,17 +5,37 @@ import br.com.bootcamp.desafio_testing.interfaces.IImmobileRepo;
 import br.com.bootcamp.desafio_testing.interfaces.IImmobileService;
 import br.com.bootcamp.desafio_testing.model.Immobile;
 import br.com.bootcamp.desafio_testing.model.Room;
+import br.com.bootcamp.desafio_testing.model.Immobile;
+import br.com.bootcamp.desafio_testing.model.Room;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
 import java.math.BigDecimal;
 import java.util.Optional;
 
 @Service
 public class ImmobileService implements IImmobileService {
-
     @Autowired
     private IImmobileRepo repo;
+    @Override
+    public Room getBiggestRoom(long idImmobile) {
+        Optional<Immobile> immobile = repo.getById(idImmobile);
+        List<Room> roomList = immobile.get().getRoomList();
+        double area = 0;
+        Room biggestRoom = null;
+
+        for (Room r: roomList) {
+            double a = calculateRoomArea(r);
+            if(a > area) {
+                area = a;
+                biggestRoom = r;
+            }
+        }
+        return biggestRoom;
+    }
 
     @Override
     public BigDecimal getPrice(long immobileId) {
