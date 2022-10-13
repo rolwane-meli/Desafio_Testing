@@ -35,12 +35,9 @@ public class ImmobileController {
         return service.getPrice(immobileId);
     }
 
-    @Autowired
-    ImmobileService service;
-
-    @GetMapping("/area/{immobileName}")
-    public ResponseEntity<ImmobileDTO> getImmobile(@PathVariable String immobileName) throws ClassNotFoundException {
-        ImmobileDTO immobile = service.getImmobile(immobileName);
+    @GetMapping("/area/{id}")
+    public ResponseEntity<ImmobileDTO> getImmobile(@PathVariable long id) throws ClassNotFoundException {
+        ImmobileDTO immobile = service.getImmobileTotalArea(id);
         return  new ResponseEntity<ImmobileDTO>(immobile, HttpStatus.OK);
     }
 }

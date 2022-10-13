@@ -17,20 +17,6 @@ public class ImmobileRepo implements IImmobileRepo {
 
     ObjectMapper mapper = new ObjectMapper();
 
-    public Optional<Immobile> getImmobile(String immobileName) {
-        List<Immobile> properties = null;
-
-        try {
-            properties = Arrays.asList(mapper.readValue(new File(pathFile), Immobile[].class));
-        } catch (Exception ex){
-            System.out.println(ex.getMessage());
-        }
-
-        for (Immobile i : properties) {
-            if (i.getName().equals(immobileName)) return Optional.of(i);
-        }
-    }
-
     @Override
     public List<Immobile> getAll() {
         List<Immobile> immobiles = null;

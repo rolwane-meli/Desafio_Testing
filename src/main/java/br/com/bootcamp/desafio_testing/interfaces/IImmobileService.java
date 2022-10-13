@@ -8,5 +8,5 @@ import br.com.bootcamp.desafio_testing.model.Room;
 public interface IImmobileService {
     BigDecimal getPrice(long immobileId);
     Room getBiggestRoom(long idImmobile);
-    ImmobileDTO getImmobile(String immobileName) throws ClassNotFoundException;
+    ImmobileDTO getImmobileTotalArea(long id) throws ClassNotFoundException;
 }
