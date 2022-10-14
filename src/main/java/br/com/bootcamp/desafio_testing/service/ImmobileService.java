@@ -27,7 +27,7 @@ public class ImmobileService implements IImmobileService {
         if(immobile.isEmpty()) throw new NotFoundException("Imovél nao encontrado");
 
         List<Room> roomList = immobile.get().getRoomList();
-        double area = 0;
+        double area = calculateRoomArea(roomList.get(0));;
         Room biggestRoom = null;
 
         for (Room r : roomList) {

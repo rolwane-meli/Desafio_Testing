@@ -50,6 +50,8 @@ class ImmobileServiceTest {
         Room room = service.getBiggestRoom(1L);
 
         assertThat(room).isEqualTo(immobile.getRoomList().get(0));
+        assertThat(room.getName()).isEqualTo(immobile.getRoomList().get(0).getName());
+        assertThat(room.getLength()* room.getWidth()).isEqualTo(24.0);
     }
 
     @Test
