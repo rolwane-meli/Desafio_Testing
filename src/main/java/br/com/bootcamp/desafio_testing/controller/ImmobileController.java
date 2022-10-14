@@ -55,9 +55,4 @@ public class ImmobileController {
         ImmobileDTO immobile = service.getImmobileTotalArea(id);
         return  new ResponseEntity<ImmobileDTO>(immobile, HttpStatus.OK);
     }
-
-    @PostMapping()
-    public ResponseEntity<Immobile> postImmobile(@RequestBody @Valid Immobile immobile) {
-        return new ResponseEntity<>(immobile, HttpStatus.CREATED);
-    }
 }
