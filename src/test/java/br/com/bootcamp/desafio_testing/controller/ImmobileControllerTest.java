@@ -67,7 +67,6 @@ class ImmobileControllerTest {
                 get("/api/v1/immobile/{id}/biggest-room",1L)
                         .contentType(MediaType.APPLICATION_JSON));
         response.andExpect(status().isOk())
-                .andExpect()
                 .andExpect(jsonPath("$.name", CoreMatchers.is(room.get(0).getName())))
                 .andExpect(jsonPath("$.width", CoreMatchers.is(room.get(0).getWidth())))
                 .andExpect(jsonPath("$.length", CoreMatchers.is(room.get(0).getLength())));
