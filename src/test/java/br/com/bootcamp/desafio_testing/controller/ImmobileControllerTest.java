@@ -7,6 +7,7 @@ import br.com.bootcamp.desafio_testing.model.District;
 import br.com.bootcamp.desafio_testing.model.Immobile;
 import br.com.bootcamp.desafio_testing.model.Room;
 import br.com.bootcamp.desafio_testing.service.ImmobileService;
+import com.jayway.jsonpath.JsonPath;
 import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -20,6 +21,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.ResultMatcher;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -59,7 +61,20 @@ class ImmobileControllerTest {
     }
 
     @Test
-    void getTotalPrice() {
+    void getTotalPrice_returnPrice_whenExistImmpobile() throws Exception {
+        BigDecimal expected = new BigDecimal(400000);
+
+        BDDMockito.when(service.getPrice(ArgumentMatchers.anyLong()))
+                .thenReturn(expected);
+
+        ResultActions response = mockMvc.perform(
+                get("/api/v1/immobile/totalPrice?immobileId=1",1)
+                        .contentType(MediaType.APPLICATION_JSON));
+
+        response.andExpect(status().isOk())
+                .andExpect(result -> {
+            result.getResponse().getContentAsString().equals(expected.toString());
+        });
     }
 
     @Test

@@ -7,6 +7,7 @@ import br.com.bootcamp.desafio_testing.model.District;
 import br.com.bootcamp.desafio_testing.model.Immobile;
 import br.com.bootcamp.desafio_testing.model.Room;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.*;
@@ -47,7 +48,28 @@ class ImmobileServiceTest {
     }
 
     @Test
-    void getPrice() {
+    @DisplayName("Erro ao calcular o preço do imóvel")
+    void getPrice_returnNotFoundException_whenThereIsNoImmobile() {
+        Mockito.when(repo.getById(ArgumentMatchers.anyLong()))
+                .thenReturn(Optional.empty());
+
+        assertThrows(NotFoundException.class, () -> {
+            service.getPrice(1);
+        }).getMessage().equals("Imóvel do Id: 1 não encontrado");
+    }
+
+    @Test
+    @DisplayName("Calcular o preço do imóvel")
+    void getPrice_returnPrice_whenThereIsImmobile() {
+        BigDecimal expected = new BigDecimal(400000);
+        Mockito.when(repo.getById(ArgumentMatchers.anyLong()))
+                .thenReturn(Optional.of(immobile));
+
+        BigDecimal result = service.getPrice(1);
+
+        assertThat(result).isNotNull();
+        assertThat(result.doubleValue()).isNotZero();
+        assertThat(result).isEqualTo(expected);
     }
 
     @Test
