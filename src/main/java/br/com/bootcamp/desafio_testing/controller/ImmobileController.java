@@ -2,19 +2,21 @@ package br.com.bootcamp.desafio_testing.controller;
 
 
 import br.com.bootcamp.desafio_testing.dto.ImmobileDTO;
+import br.com.bootcamp.desafio_testing.interfaces.IImmobileService;
+import br.com.bootcamp.desafio_testing.model.Immobile;
 import br.com.bootcamp.desafio_testing.dto.RoomDTO;
 import br.com.bootcamp.desafio_testing.service.ImmobileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.bootcamp.desafio_testing.interfaces.IImmobileService;
+import javax.validation.Valid;
 import br.com.bootcamp.desafio_testing.model.Room;
-import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 
