@@ -1,6 +1,7 @@
 package br.com.bootcamp.desafio_testing.controller;
 
 import br.com.bootcamp.desafio_testing.dto.ImmobileDTO;
+import br.com.bootcamp.desafio_testing.dto.RoomDTO;
 import br.com.bootcamp.desafio_testing.interfaces.IImmobileService;
 import br.com.bootcamp.desafio_testing.model.District;
 import br.com.bootcamp.desafio_testing.model.Immobile;
@@ -22,6 +23,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -42,6 +44,9 @@ class ImmobileControllerTest {
     private ImmobileDTO immobileDTO;
 
     private List<Room> room = new ArrayList<>();
+    private List<RoomDTO> roomDTOList = new ArrayList<>();
+
+    BigDecimal mockResultPrice = new BigDecimal(400000);
 
     @BeforeEach
     void setup() {
@@ -50,6 +55,9 @@ class ImmobileControllerTest {
         room.add(new Room("Sala",5.0,4.0));
         immobile = new Immobile(1L,"Imovel teste",district, room);
         immobileDTO = new ImmobileDTO(immobile,40.0);
+
+        roomDTOList.add(new RoomDTO(immobile.getRoomList().get(0)));
+        roomDTOList.add(new RoomDTO(immobile.getRoomList().get(1)));
     }
     @Test
     void getBiggestRoom_returnRoom_whenExistImmobile() throws Exception {
@@ -66,7 +74,20 @@ class ImmobileControllerTest {
                 .andExpect(jsonPath("$.length", CoreMatchers.is(room.get(0).getLength())));
     }
     @Test
-    void getTotalPrice() {
+    void getTotalPrice_returnPrice_whenExistImmpobile() throws Exception {
+        BigDecimal expected = new BigDecimal(400000);
+
+        BDDMockito.when(service.getPrice(ArgumentMatchers.anyLong()))
+                .thenReturn(mockResultPrice);
+
+        ResultActions response = mockMvc.perform(
+                get("/api/v1/immobile/totalPrice?immobileId=1",1)
+                        .contentType(MediaType.APPLICATION_JSON));
+
+        response.andExpect(status().isOk())
+                .andExpect(result -> {
+                    assertThat(result.getResponse().getContentAsString()).isEqualTo(expected.toString());
+                });
     }
 
     @Test

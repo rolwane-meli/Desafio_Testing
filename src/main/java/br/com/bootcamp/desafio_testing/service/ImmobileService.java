@@ -10,7 +10,6 @@ import br.com.bootcamp.desafio_testing.model.Room;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.math.BigDecimal;
 import java.util.Optional;
@@ -81,12 +80,13 @@ public class ImmobileService implements IImmobileService {
     }
 
     @Override
-    public List<RoomDTO> getAllRoomArea(long id) {
+    public List<RoomDTO> getAllRoomArea(long id) throws NotFoundException{
         Optional<Immobile> immobile = repo.getById(id);
-        List<Room> roomList = null;
+        if (immobile.isEmpty()) {
+            throw new NotFoundException("Esse imóvel nao existe");
+        }
         List<RoomDTO> allRooms;
-
-        if (immobile.isPresent()) roomList = immobile.get().getRoomList();
+        List<Room> roomList = immobile.get().getRoomList();;
 
         allRooms = roomList.stream()
                 .map(RoomDTO::new)
