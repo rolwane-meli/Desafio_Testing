@@ -1,19 +1,16 @@
 package br.com.bootcamp.desafio_testing.controller;
 
 import br.com.bootcamp.desafio_testing.dto.ImmobileDTO;
-import br.com.bootcamp.desafio_testing.exception.NotFoundException;
+import br.com.bootcamp.desafio_testing.dto.RoomDTO;
 import br.com.bootcamp.desafio_testing.interfaces.IImmobileService;
 import br.com.bootcamp.desafio_testing.model.District;
 import br.com.bootcamp.desafio_testing.model.Immobile;
 import br.com.bootcamp.desafio_testing.model.Room;
-import br.com.bootcamp.desafio_testing.service.ImmobileService;
-import com.jayway.jsonpath.JsonPath;
 import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
 import org.mockito.BDDMockito;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -21,13 +18,13 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.test.web.servlet.ResultMatcher;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -47,6 +44,9 @@ class ImmobileControllerTest {
     private ImmobileDTO immobileDTO;
 
     private List<Room> room = new ArrayList<>();
+    private List<RoomDTO> roomDTOList = new ArrayList<>();
+
+    BigDecimal mockResultPrice = new BigDecimal(400000);
 
     @BeforeEach
     void setup() {
@@ -55,6 +55,9 @@ class ImmobileControllerTest {
         room.add(new Room("Sala",5.0,4.0));
         immobile = new Immobile(1L,"Imovel teste",district, room);
         immobileDTO = new ImmobileDTO(immobile,40.0);
+
+        roomDTOList.add(new RoomDTO(immobile.getRoomList().get(0)));
+        roomDTOList.add(new RoomDTO(immobile.getRoomList().get(1)));
     }
     @Test
     void getBiggestRoom() {
@@ -65,7 +68,7 @@ class ImmobileControllerTest {
         BigDecimal expected = new BigDecimal(400000);
 
         BDDMockito.when(service.getPrice(ArgumentMatchers.anyLong()))
-                .thenReturn(expected);
+                .thenReturn(mockResultPrice);
 
         ResultActions response = mockMvc.perform(
                 get("/api/v1/immobile/totalPrice?immobileId=1",1)
@@ -73,8 +76,8 @@ class ImmobileControllerTest {
 
         response.andExpect(status().isOk())
                 .andExpect(result -> {
-            result.getResponse().getContentAsString().equals(expected.toString());
-        });
+                    assertThat(result.getResponse().getContentAsString()).isEqualTo(expected.toString());
+                });
     }
 
     @Test
@@ -89,5 +92,22 @@ class ImmobileControllerTest {
         response.andExpect(status().isOk())
                 .andExpect(jsonPath("$.name", CoreMatchers.is(immobileDTO.getName())))
                 .andExpect(jsonPath("$.totalArea", CoreMatchers.is(immobileDTO.getTotalArea())));
+    }
+
+    @Test
+    void getAllRoomArea_returnTotalAreaOfAllRooms_whenExistImmobile() throws Exception {
+        BDDMockito.when(service.getAllRoomArea(ArgumentMatchers.anyLong()))
+                .thenReturn(roomDTOList);
+
+        ResultActions response = mockMvc.perform(
+                get("/api/v1/immobile/{id}/all-rooms",1L)
+                        .contentType(MediaType.APPLICATION_JSON));
+
+        response.andExpect(status().isOk())
+                .andExpect(jsonPath("$.size()", CoreMatchers.is(2)))
+                .andExpect(jsonPath("$[0].roomName", CoreMatchers.is("Cozinha")))
+                .andExpect(jsonPath("$[0].roomArea", CoreMatchers.is(20.0)))
+                .andExpect(jsonPath("$[1].roomName", CoreMatchers.is("Sala")))
+                .andExpect(jsonPath("$[1].roomArea", CoreMatchers.is(20.0)));
     }
 }
