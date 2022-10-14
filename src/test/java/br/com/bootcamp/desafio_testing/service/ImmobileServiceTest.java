@@ -58,6 +58,16 @@ class ImmobileServiceTest {
     }
 
     @Test
+    void getBiggestRoom_returnNotFoundException_whenImmobileEmpty() {
+        Mockito.when(repo.getById(ArgumentMatchers.anyLong()))
+                .thenReturn(Optional.empty());
+
+        assertThrows(NotFoundException.class, () -> {
+            service.getBiggestRoom(1L);
+        });
+    }
+
+    @Test
     @DisplayName("Erro ao calcular o preço do imóvel")
     void getPrice_returnNotFoundException_whenThereIsNoImmobile() {
         Mockito.when(repo.getById(ArgumentMatchers.anyLong()))
