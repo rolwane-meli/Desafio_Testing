@@ -2,7 +2,7 @@ package br.com.bootcamp.desafio_testing.controller;
 
 
 import br.com.bootcamp.desafio_testing.dto.ImmobileDTO;
-
+import br.com.bootcamp.desafio_testing.exception.NotFoundException;
 import br.com.bootcamp.desafio_testing.dto.RoomDTO;
 import br.com.bootcamp.desafio_testing.service.ImmobileService;
 import br.com.bootcamp.desafio_testing.interfaces.IImmobileService;
@@ -49,7 +49,7 @@ public class ImmobileController {
     }
 
     @GetMapping("/area/{id}")
-    public ResponseEntity<ImmobileDTO> getImmobile(@PathVariable long id) throws ClassNotFoundException {
+    public ResponseEntity<ImmobileDTO> getImmobileTotalArea(@PathVariable long id) throws NotFoundException {
         ImmobileDTO immobile = service.getImmobileTotalArea(id);
         return  new ResponseEntity<ImmobileDTO>(immobile, HttpStatus.OK);
     }
