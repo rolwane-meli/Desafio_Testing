@@ -1,20 +1,15 @@
 package br.com.bootcamp.desafio_testing.controller;
 
 import br.com.bootcamp.desafio_testing.dto.ImmobileDTO;
-import br.com.bootcamp.desafio_testing.exception.NotFoundException;
 import br.com.bootcamp.desafio_testing.interfaces.IImmobileService;
 import br.com.bootcamp.desafio_testing.model.District;
 import br.com.bootcamp.desafio_testing.model.Immobile;
 import br.com.bootcamp.desafio_testing.model.Room;
-import br.com.bootcamp.desafio_testing.service.ImmobileService;
-import com.jayway.jsonpath.JsonPath;
 import org.hamcrest.CoreMatchers;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
 import org.mockito.BDDMockito;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -22,7 +17,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.test.web.servlet.ResultMatcher;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -64,14 +58,13 @@ class ImmobileControllerTest {
                 .thenReturn(room.get(0));
 
         ResultActions response = mockMvc.perform(
-                get("/api/v1/immobile/{id}/biggest-room",1L)
+                get("/api/v1/immobile/{id}/biggest-room", 1L)
                         .contentType(MediaType.APPLICATION_JSON));
         response.andExpect(status().isOk())
                 .andExpect(jsonPath("$.name", CoreMatchers.is(room.get(0).getName())))
                 .andExpect(jsonPath("$.width", CoreMatchers.is(room.get(0).getWidth())))
                 .andExpect(jsonPath("$.length", CoreMatchers.is(room.get(0).getLength())));
     }
-
     @Test
     void getTotalPrice() {
     }
