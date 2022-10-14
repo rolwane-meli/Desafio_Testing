@@ -1,6 +1,7 @@
 package br.com.bootcamp.desafio_testing.service;
 
 import br.com.bootcamp.desafio_testing.dto.ImmobileDTO;
+import br.com.bootcamp.desafio_testing.dto.RoomDTO;
 import br.com.bootcamp.desafio_testing.exception.NotFoundException;
 import br.com.bootcamp.desafio_testing.interfaces.IImmobileRepo;
 import br.com.bootcamp.desafio_testing.interfaces.IImmobileService;
@@ -8,14 +9,18 @@ import br.com.bootcamp.desafio_testing.model.Immobile;
 import br.com.bootcamp.desafio_testing.model.Room;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.math.BigDecimal;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ImmobileService implements IImmobileService {
     @Autowired
     private IImmobileRepo repo;
+
     @Override
     public Room getBiggestRoom(long idImmobile) {
         Optional<Immobile> immobile = repo.getById(idImmobile);
@@ -72,5 +77,20 @@ public class ImmobileService implements IImmobileService {
 
     private double calculateRoomArea(Room room){
         return room.getLength() * room.getWidth();
+    }
+
+    @Override
+    public List<RoomDTO> getAllRoomArea(long id) {
+        Optional<Immobile> immobile = repo.getById(id);
+        List<Room> roomList = null;
+        List<RoomDTO> allRooms;
+
+        if (immobile.isPresent()) roomList = immobile.get().getRoomList();
+
+        allRooms = roomList.stream()
+                .map(RoomDTO::new)
+                .collect(Collectors.toList());
+
+        return allRooms;
     }
 }
