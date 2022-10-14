@@ -24,6 +24,8 @@ public class ImmobileService implements IImmobileService {
     @Override
     public Room getBiggestRoom(long idImmobile) {
         Optional<Immobile> immobile = repo.getById(idImmobile);
+        if(immobile.isEmpty()) throw new NotFoundException("Imovél nao encontrado");
+
         List<Room> roomList = immobile.get().getRoomList();
         double area = 0;
         Room biggestRoom = null;
