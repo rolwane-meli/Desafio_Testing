@@ -52,7 +52,7 @@ public class ImmobileService implements IImmobileService {
     }
 
     @Override
-    public ImmobileDTO getImmobileTotalArea(long id) throws ClassNotFoundException {
+    public ImmobileDTO getImmobileTotalArea(long id) throws NotFoundException {
         Optional<Immobile> immobile = repo.getById(id);
         if (immobile.isEmpty()) {
             throw new NotFoundException("Esse imóvel nao existe");
