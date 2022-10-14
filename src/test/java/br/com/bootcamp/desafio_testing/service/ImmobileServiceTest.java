@@ -1,6 +1,7 @@
 package br.com.bootcamp.desafio_testing.service;
 
 import br.com.bootcamp.desafio_testing.dto.ImmobileDTO;
+import br.com.bootcamp.desafio_testing.dto.RoomDTO;
 import br.com.bootcamp.desafio_testing.exception.NotFoundException;
 import br.com.bootcamp.desafio_testing.interfaces.IImmobileRepo;
 import br.com.bootcamp.desafio_testing.model.District;
@@ -10,6 +11,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.*;
+import org.mockito.internal.matchers.Not;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.math.BigDecimal;
@@ -69,6 +71,28 @@ class ImmobileServiceTest {
 
         assertThrows(NotFoundException.class, () -> {
             service.getImmobileTotalArea(immobileID);
+        });
+    }
+
+    @Test
+    void getAllRoomArea_returnAllRoomsArea_whenExistImmobile(){
+        Mockito.when(repo.getById(ArgumentMatchers.anyLong()))
+                .thenReturn(Optional.ofNullable(immobile));
+
+        List<RoomDTO> roomDTO = service.getAllRoomArea(1L);
+
+        assertThat(roomDTO).isNotNull();
+        assertThat(roomDTO.get(0).getRoomArea()).isEqualTo(20);
+        assertThat(roomDTO.size()).isEqualTo(2);
+    }
+
+    @Test
+    void getAllRoomArea_returnNotFoundException_whenThereIsNoImmobile() throws NotFoundException {
+        Mockito.when(repo.getById(ArgumentMatchers.anyLong()))
+                .thenReturn(Optional.empty());
+
+        assertThrows(NotFoundException.class, () -> {
+            service.getAllRoomArea(100L);
         });
     }
 }
