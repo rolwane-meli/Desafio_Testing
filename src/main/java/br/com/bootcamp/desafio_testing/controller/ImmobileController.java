@@ -23,6 +23,7 @@ import java.math.BigDecimal;
 public class ImmobileController {
     @Autowired
     private IImmobileService service;
+
     @GetMapping("/{id}/biggest-room")
     public ResponseEntity<Room> getBiggestRoom(@PathVariable long id) {
         return new ResponseEntity<>(service.getBiggestRoom(id), HttpStatus.OK);
@@ -37,5 +38,10 @@ public class ImmobileController {
     public ResponseEntity<ImmobileDTO> getImmobile(@PathVariable long id) throws ClassNotFoundException {
         ImmobileDTO immobile = service.getImmobileTotalArea(id);
         return  new ResponseEntity<ImmobileDTO>(immobile, HttpStatus.OK);
+    }
+
+    @PostMapping()
+    public ResponseEntity<Immobile> postImmobile(@RequestBody @Valid Immobile immobile) {
+        return new ResponseEntity<>(immobile, HttpStatus.CREATED);
     }
 }
