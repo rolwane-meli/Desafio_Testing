@@ -38,12 +38,18 @@ class ImmobileServiceTest {
     @BeforeEach
     void setup() {
         district = new District("Bairro teste",new BigDecimal(10000));
-        room.add(new Room("Cozinha",5.0,4.0));
+        room.add(new Room("Cozinha",6.0,4.0));
         room.add(new Room("Sala",5.0,4.0));
         immobile = new Immobile(1L,"Imovel teste",district, room);
     }
     @Test
-    void getBiggestRoom() {
+    void getBiggestRoom_returnRoom_whenValidImmobile() {
+        Mockito.when(repo.getById(ArgumentMatchers.anyLong()))
+                .thenReturn(Optional.of(immobile));
+
+        Room room = service.getBiggestRoom(1L);
+
+        assertThat(room).isEqualTo(immobile.getRoomList().get(0));
     }
 
     @Test
@@ -58,7 +64,7 @@ class ImmobileServiceTest {
         ImmobileDTO immobileDTO = service.getImmobileTotalArea(1L);
 
         assertThat(immobileDTO).isNotNull();
-        assertThat(immobileDTO.getTotalArea()).isEqualTo(40.0);
+        assertThat(immobileDTO.getTotalArea()).isEqualTo(44.0);
     }
     @Test
     void getImmobileTotalArea_returnNotFoundException_whenThereIsNoImmobile() throws NotFoundException {

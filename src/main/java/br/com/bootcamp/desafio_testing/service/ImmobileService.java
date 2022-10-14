@@ -28,10 +28,9 @@ public class ImmobileService implements IImmobileService {
         double area = 0;
         Room biggestRoom = null;
 
-        for (Room r: roomList) {
-            double a = calculateRoomArea(r);
-            if(a > area) {
-                area = a;
+        for (Room r : roomList) {
+            if (calculateRoomArea(r) >= area) {
+                area = calculateRoomArea(r);
                 biggestRoom = r;
             }
         }
