@@ -2,6 +2,10 @@ package br.com.bootcamp.desafio_testing.interfaces;
 
 import br.com.bootcamp.desafio_testing.dto.ImmobileDTO;
 import java.math.BigDecimal;
+
+import br.com.bootcamp.desafio_testing.exception.NotFoundException;
+import br.com.bootcamp.desafio_testing.model.Immobile;
+import java.math.BigDecimal;
 import br.com.bootcamp.desafio_testing.exception.NotFoundException;
 import java.util.List;
 
