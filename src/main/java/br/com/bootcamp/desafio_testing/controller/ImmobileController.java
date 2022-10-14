@@ -2,6 +2,8 @@ package br.com.bootcamp.desafio_testing.controller;
 
 
 import br.com.bootcamp.desafio_testing.dto.ImmobileDTO;
+import br.com.bootcamp.desafio_testing.dto.RoomDTO;
+import br.com.bootcamp.desafio_testing.service.ImmobileService;
 import br.com.bootcamp.desafio_testing.interfaces.IImmobileService;
 import br.com.bootcamp.desafio_testing.model.Immobile;
 import br.com.bootcamp.desafio_testing.dto.RoomDTO;
