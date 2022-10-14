@@ -29,8 +29,8 @@ public class ImmobileController {
     }
 
     @GetMapping("/totalPrice")
-    public BigDecimal getTotalPrice(@RequestParam long immobileId){
-        return service.getPrice(immobileId);
+    public ResponseEntity<BigDecimal> getTotalPrice(@RequestParam long immobileId){
+        return new ResponseEntity<>(service.getPrice(immobileId), HttpStatus.OK);
     }
 
     @GetMapping("/area/{id}")
