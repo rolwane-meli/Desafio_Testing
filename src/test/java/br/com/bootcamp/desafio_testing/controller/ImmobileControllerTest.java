@@ -6,7 +6,10 @@ import br.com.bootcamp.desafio_testing.interfaces.IImmobileService;
 import br.com.bootcamp.desafio_testing.model.District;
 import br.com.bootcamp.desafio_testing.model.Immobile;
 import br.com.bootcamp.desafio_testing.model.Room;
+import br.com.bootcamp.desafio_testing.service.ImmobileService;
+import com.jayway.jsonpath.JsonPath;
 import org.hamcrest.CoreMatchers;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
@@ -18,6 +21,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.ResultMatcher;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -60,7 +64,18 @@ class ImmobileControllerTest {
         roomDTOList.add(new RoomDTO(immobile.getRoomList().get(1)));
     }
     @Test
-    void getBiggestRoom() {
+    void getBiggestRoom_returnRoom_whenExistImmobile() throws Exception {
+
+        BDDMockito.when(service.getBiggestRoom(ArgumentMatchers.anyLong()))
+                .thenReturn(room.get(0));
+
+        ResultActions response = mockMvc.perform(
+                get("/api/v1/immobile/{id}/biggest-room",1L)
+                        .contentType(MediaType.APPLICATION_JSON));
+        response.andExpect(status().isOk())
+                .andExpect(jsonPath("$.name", CoreMatchers.is(room.get(0).getName())))
+                .andExpect(jsonPath("$.width", CoreMatchers.is(room.get(0).getWidth())))
+                .andExpect(jsonPath("$.length", CoreMatchers.is(room.get(0).getLength())));
     }
 
     @Test
@@ -92,22 +107,5 @@ class ImmobileControllerTest {
         response.andExpect(status().isOk())
                 .andExpect(jsonPath("$.name", CoreMatchers.is(immobileDTO.getName())))
                 .andExpect(jsonPath("$.totalArea", CoreMatchers.is(immobileDTO.getTotalArea())));
-    }
-
-    @Test
-    void getAllRoomArea_returnTotalAreaOfAllRooms_whenExistImmobile() throws Exception {
-        BDDMockito.when(service.getAllRoomArea(ArgumentMatchers.anyLong()))
-                .thenReturn(roomDTOList);
-
-        ResultActions response = mockMvc.perform(
-                get("/api/v1/immobile/{id}/all-rooms",1L)
-                        .contentType(MediaType.APPLICATION_JSON));
-
-        response.andExpect(status().isOk())
-                .andExpect(jsonPath("$.size()", CoreMatchers.is(2)))
-                .andExpect(jsonPath("$[0].roomName", CoreMatchers.is("Cozinha")))
-                .andExpect(jsonPath("$[0].roomArea", CoreMatchers.is(20.0)))
-                .andExpect(jsonPath("$[1].roomName", CoreMatchers.is("Sala")))
-                .andExpect(jsonPath("$[1].roomArea", CoreMatchers.is(20.0)));
     }
 }
