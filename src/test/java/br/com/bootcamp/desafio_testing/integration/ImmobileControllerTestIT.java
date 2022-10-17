@@ -71,4 +71,17 @@ public class ImmobileControllerTestIT {
                 .andExpect(jsonPath("$[0].roomArea", CoreMatchers.is(22.0)))
                 .andExpect(jsonPath("$[3].roomName", CoreMatchers.is("Sala")));
     }
+
+    @Test
+    @DisplayName("Testa o end point get-biggest-room")
+    void getBiggestRoom_returnRoom_whenExistImmobile() throws Exception {
+        ResultActions response = mockMvc.perform(
+                get("/api/v1/immobile/biggest-room?immobileId=1")
+                        .contentType(MediaType.APPLICATION_JSON) );
+
+        response.andExpect(status().isOk())
+                .andExpect(jsonPath("$.name", CoreMatchers.is("Quarto")))
+                .andExpect(jsonPath("$.width", CoreMatchers.is(8.0)))
+                .andExpect(jsonPath("$.length", CoreMatchers.is(5.0)));
+    }
 }
