@@ -13,6 +13,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
+import java.math.BigDecimal;
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -42,5 +44,18 @@ public class ImmobileControllerTestIT {
         response.andExpect(status().isOk())
                 .andExpect(jsonPath("$.name", CoreMatchers.is("Imóvel 01")))
                 .andExpect(jsonPath("$.totalArea", CoreMatchers.is(80.25)));
+    }
+
+    @Test
+    @DisplayName("Testa Retorno do endpoint Immobile Total Price")
+    void getTotalPrice_returnTotalPrice_whenExistImmobile() throws Exception {
+        BigDecimal expected = new BigDecimal(802500);
+
+        ResultActions response = mockMvc.perform(
+                get("/api/v1/immobile/total-price?immobileId=1")
+                        .contentType(MediaType.APPLICATION_JSON) );
+
+        response.andExpect(status().isOk())
+                .andExpect(jsonPath("$", CoreMatchers.is(expected.doubleValue())));
     }
 }
