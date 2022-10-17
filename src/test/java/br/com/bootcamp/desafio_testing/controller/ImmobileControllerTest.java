@@ -8,6 +8,7 @@ import br.com.bootcamp.desafio_testing.model.Immobile;
 import br.com.bootcamp.desafio_testing.model.Room;
 import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
 import org.mockito.BDDMockito;
@@ -74,7 +75,9 @@ class ImmobileControllerTest {
                 .andExpect(jsonPath("$.width", CoreMatchers.is(room.get(0).getWidth())))
                 .andExpect(jsonPath("$.length", CoreMatchers.is(room.get(0).getLength())));
     }
+
     @Test
+    @DisplayName("Testar path de calcular o preço total do imóvel")
     void getTotalPrice_returnPrice_whenExistImmobile() throws Exception {
         BigDecimal expected = new BigDecimal(400000);
 
