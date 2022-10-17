@@ -66,22 +66,23 @@ class ImmobileControllerTest {
                 .thenReturn(room.get(0));
 
         ResultActions response = mockMvc.perform(
-                get("/api/v1/immobile/{id}/biggest-room", 1L)
+                get("/api/v1/immobile/biggest-room?immobileId=1")
                         .contentType(MediaType.APPLICATION_JSON));
+
         response.andExpect(status().isOk())
                 .andExpect(jsonPath("$.name", CoreMatchers.is(room.get(0).getName())))
                 .andExpect(jsonPath("$.width", CoreMatchers.is(room.get(0).getWidth())))
                 .andExpect(jsonPath("$.length", CoreMatchers.is(room.get(0).getLength())));
     }
     @Test
-    void getTotalPrice_returnPrice_whenExistImmpobile() throws Exception {
+    void getTotalPrice_returnPrice_whenExistImmobile() throws Exception {
         BigDecimal expected = new BigDecimal(400000);
 
         BDDMockito.when(service.getPrice(ArgumentMatchers.anyLong()))
                 .thenReturn(mockResultPrice);
 
         ResultActions response = mockMvc.perform(
-                get("/api/v1/immobile/totalPrice?immobileId=1",1)
+                get("/api/v1/immobile/total-price?immobileId=1")
                         .contentType(MediaType.APPLICATION_JSON));
 
         response.andExpect(status().isOk())
@@ -96,7 +97,7 @@ class ImmobileControllerTest {
                 .thenReturn(immobileDTO);
 
         ResultActions response = mockMvc.perform(
-                get("/api/v1/immobile/area/{id}",1L)
+                get("/api/v1/immobile/total-area?immobileId=1")
                         .contentType(MediaType.APPLICATION_JSON));
 
         response.andExpect(status().isOk())
@@ -109,7 +110,7 @@ class ImmobileControllerTest {
                 .thenReturn(roomDTOList);
 
         ResultActions response = mockMvc.perform(
-                get("/api/v1/immobile/{id}/all-rooms",1L)
+                get("/api/v1/immobile/all-rooms-area?immobileId=1")
                         .contentType(MediaType.APPLICATION_JSON));
 
         response.andExpect(status().isOk())
