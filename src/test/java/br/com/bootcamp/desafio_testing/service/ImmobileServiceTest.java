@@ -101,6 +101,7 @@ class ImmobileServiceTest {
         assertThat(immobileDTO).isNotNull();
         assertThat(immobileDTO.getTotalArea()).isEqualTo(40.0);
     }
+
     @Test
     void getImmobileTotalArea_returnNotFoundException_whenThereIsNoImmobile() throws NotFoundException {
         long immobileID = 100;
