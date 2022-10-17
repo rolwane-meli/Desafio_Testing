@@ -11,10 +11,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentMatchers;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
+import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.math.BigDecimal;
@@ -48,7 +45,25 @@ class ImmobileServiceTest {
         immobile = new Immobile(1L,"Imovel teste",district, room);
     }
     @Test
-    void getBiggestRoom() {
+    void getBiggestRoom_returnRoom_whenValidImmobile() {
+        Mockito.when(repo.getById(ArgumentMatchers.anyLong()))
+                .thenReturn(Optional.of(immobile));
+
+        Room room = service.getBiggestRoom(1L);
+
+        assertThat(room).isEqualTo(immobile.getRoomList().get(1));
+        assertThat(room.getName()).isEqualTo(immobile.getRoomList().get(1).getName());
+        assertThat(room.getLength()* room.getWidth()).isEqualTo(20.0);
+    }
+
+    @Test
+    void getBiggestRoom_returnNotFoundException_whenImmobileEmpty() {
+        Mockito.when(repo.getById(ArgumentMatchers.anyLong()))
+                .thenReturn(Optional.empty());
+
+        assertThrows(NotFoundException.class, () -> {
+            service.getBiggestRoom(1L);
+        });
     }
 
     @Test

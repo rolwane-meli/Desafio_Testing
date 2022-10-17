@@ -23,14 +23,15 @@ public class ImmobileService implements IImmobileService {
     @Override
     public Room getBiggestRoom(long idImmobile) {
         Optional<Immobile> immobile = repo.getById(idImmobile);
+        if(immobile.isEmpty()) throw new NotFoundException("Imovél nao encontrado");
+
         List<Room> roomList = immobile.get().getRoomList();
-        double area = 0;
+        double area = calculateRoomArea(roomList.get(0));;
         Room biggestRoom = null;
 
-        for (Room r: roomList) {
-            double a = calculateRoomArea(r);
-            if(a > area) {
-                area = a;
+        for (Room r : roomList) {
+            if (calculateRoomArea(r) >= area) {
+                area = calculateRoomArea(r);
                 biggestRoom = r;
             }
         }

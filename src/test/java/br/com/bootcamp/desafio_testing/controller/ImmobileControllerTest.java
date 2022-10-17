@@ -24,7 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -60,9 +60,19 @@ class ImmobileControllerTest {
         roomDTOList.add(new RoomDTO(immobile.getRoomList().get(1)));
     }
     @Test
-    void getBiggestRoom() {
-    }
+    void getBiggestRoom_returnRoom_whenExistImmobile() throws Exception {
 
+        BDDMockito.when(service.getBiggestRoom(ArgumentMatchers.anyLong()))
+                .thenReturn(room.get(0));
+
+        ResultActions response = mockMvc.perform(
+                get("/api/v1/immobile/{id}/biggest-room", 1L)
+                        .contentType(MediaType.APPLICATION_JSON));
+        response.andExpect(status().isOk())
+                .andExpect(jsonPath("$.name", CoreMatchers.is(room.get(0).getName())))
+                .andExpect(jsonPath("$.width", CoreMatchers.is(room.get(0).getWidth())))
+                .andExpect(jsonPath("$.length", CoreMatchers.is(room.get(0).getLength())));
+    }
     @Test
     void getTotalPrice_returnPrice_whenExistImmpobile() throws Exception {
         BigDecimal expected = new BigDecimal(400000);
@@ -93,7 +103,6 @@ class ImmobileControllerTest {
                 .andExpect(jsonPath("$.name", CoreMatchers.is(immobileDTO.getName())))
                 .andExpect(jsonPath("$.totalArea", CoreMatchers.is(immobileDTO.getTotalArea())));
     }
-
     @Test
     void getAllRoomArea_returnTotalAreaOfAllRooms_whenExistImmobile() throws Exception {
         BDDMockito.when(service.getAllRoomArea(ArgumentMatchers.anyLong()))
