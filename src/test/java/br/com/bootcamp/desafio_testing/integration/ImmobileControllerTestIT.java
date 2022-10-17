@@ -69,6 +69,6 @@ public class ImmobileControllerTestIT {
                 .andExpect(jsonPath("$.size()", CoreMatchers.is(4)))
                 .andExpect(jsonPath("$[0].roomName", CoreMatchers.is("Cozinha")))
                 .andExpect(jsonPath("$[0].roomArea", CoreMatchers.is(22.0)))
-                .andExpect(jsonPath("$[3].roomName", CoreMatchers.is("Sala")))
+                .andExpect(jsonPath("$[3].roomName", CoreMatchers.is("Sala")));
     }
 }
