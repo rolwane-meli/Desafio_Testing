@@ -103,4 +103,20 @@ class ImmobileControllerTest {
                 .andExpect(jsonPath("$.name", CoreMatchers.is(immobileDTO.getName())))
                 .andExpect(jsonPath("$.totalArea", CoreMatchers.is(immobileDTO.getTotalArea())));
     }
+    @Test
+    void getAllRoomArea_returnTotalAreaOfAllRooms_whenExistImmobile() throws Exception {
+        BDDMockito.when(service.getAllRoomArea(ArgumentMatchers.anyLong()))
+                .thenReturn(roomDTOList);
+
+        ResultActions response = mockMvc.perform(
+                get("/api/v1/immobile/{id}/all-rooms",1L)
+                        .contentType(MediaType.APPLICATION_JSON));
+
+        response.andExpect(status().isOk())
+                .andExpect(jsonPath("$.size()", CoreMatchers.is(2)))
+                .andExpect(jsonPath("$[0].roomName", CoreMatchers.is("Cozinha")))
+                .andExpect(jsonPath("$[0].roomArea", CoreMatchers.is(20.0)))
+                .andExpect(jsonPath("$[1].roomName", CoreMatchers.is("Sala")))
+                .andExpect(jsonPath("$[1].roomArea", CoreMatchers.is(20.0)));
+    }
 }
