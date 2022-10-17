@@ -1,0 +1,169 @@
+{
+	"info": {
+		"_postman_id": "1a477efc-7796-4853-a778-54930ed857ed",
+		"name": "DESAFIO TESTING",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "get Biggest Room",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"imóvel 01\",\n    \"district\": {\n        \"name\": \"Bairro\",\n        \"valueDistrictM2\": 500012345678912345678.0\n    },\n    \"roomList\": [\n        {\n            \"name\": \"cozinha\",\n            \"width\": 3.5,\n            \"length\": 5.0\n        },\n        {\n            \"name\": \"Quarto\",\n            \"width\": 8.0,\n            \"length\": 5.0\n        }\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/immobile/biggest-room?immobileId=1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"immobile",
+						"biggest-room"
+					],
+					"query": [
+						{
+							"key": "immobileId",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get All Rooms Areas",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"imóvel 01\",\n    \"district\": {\n        \"name\": \"Bairro\",\n        \"valueDistrictM2\": 500012345678912345678.0\n    },\n    \"roomList\": [\n        {\n            \"name\": \"cozinha\",\n            \"width\": 3.5,\n            \"length\": 5.0\n        },\n        {\n            \"name\": \"Quarto\",\n            \"width\": 8.0,\n            \"length\": 5.0\n        }\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/immobile/all-rooms-area?immobileId=1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"immobile",
+						"all-rooms-area"
+					],
+					"query": [
+						{
+							"key": "immobileId",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get Immobile Total Price",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"imóvel 01\",\n    \"district\": {\n        \"name\": \"Bairro\",\n        \"valueDistrictM2\": 500012345678912345678.0\n    },\n    \"roomList\": [\n        {\n            \"name\": \"cozinha\",\n            \"width\": 3.5,\n            \"length\": 5.0\n        },\n        {\n            \"name\": \"Quarto\",\n            \"width\": 8.0,\n            \"length\": 5.0\n        }\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/immobile/total-price?immobileId=1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"immobile",
+						"total-price"
+					],
+					"query": [
+						{
+							"key": "immobileId",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get Immobile Total Area",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"imóvel 01\",\n    \"district\": {\n        \"name\": \"Bairro\",\n        \"valueDistrictM2\": 500012345678912345678.0\n    },\n    \"roomList\": [\n        {\n            \"name\": \"cozinha\",\n            \"width\": 3.5,\n            \"length\": 5.0\n        },\n        {\n            \"name\": \"Quarto\",\n            \"width\": 8.0,\n            \"length\": 5.0\n        }\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/immobile/total-area?immobileId=1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"immobile",
+						"total-area"
+					],
+					"query": [
+						{
+							"key": "immobileId",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
