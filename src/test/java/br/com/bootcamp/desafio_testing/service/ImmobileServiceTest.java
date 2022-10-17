@@ -51,9 +51,9 @@ class ImmobileServiceTest {
 
         Room room = service.getBiggestRoom(1L);
 
-        assertThat(room).isEqualTo(immobile.getRoomList().get(0));
-        assertThat(room.getName()).isEqualTo(immobile.getRoomList().get(0).getName());
-        assertThat(room.getLength()* room.getWidth()).isEqualTo(24.0);
+        assertThat(room).isEqualTo(immobile.getRoomList().get(1));
+        assertThat(room.getName()).isEqualTo(immobile.getRoomList().get(1).getName());
+        assertThat(room.getLength()* room.getWidth()).isEqualTo(20.0);
     }
 
     @Test
@@ -99,7 +99,7 @@ class ImmobileServiceTest {
         ImmobileDTO immobileDTO = service.getImmobileTotalArea(1L);
 
         assertThat(immobileDTO).isNotNull();
-        assertThat(immobileDTO.getTotalArea()).isEqualTo(44.0);
+        assertThat(immobileDTO.getTotalArea()).isEqualTo(40.0);
     }
     @Test
     void getImmobileTotalArea_returnNotFoundException_whenThereIsNoImmobile() throws NotFoundException {
