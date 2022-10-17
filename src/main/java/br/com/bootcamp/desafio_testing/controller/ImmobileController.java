@@ -20,24 +20,24 @@ public class ImmobileController {
     @Autowired
     private IImmobileService service;
 
-    @GetMapping("/{id}/biggest-room")
-    public ResponseEntity<Room> getBiggestRoom(@PathVariable long id) {
-        return new ResponseEntity<>(service.getBiggestRoom(id), HttpStatus.OK);
+    @GetMapping("/biggest-room")
+    public ResponseEntity<Room> getBiggestRoom(@RequestParam long immobileId) {
+        return new ResponseEntity<>(service.getBiggestRoom(immobileId), HttpStatus.OK);
     }
 
-    @GetMapping("/{id}/all-rooms")
-    public ResponseEntity<List<RoomDTO>> getAllRoomArea(@PathVariable long id) {
-        return new ResponseEntity<>(service.getAllRoomArea(id), HttpStatus.OK);
+    @GetMapping("/all-rooms-area")
+    public ResponseEntity<List<RoomDTO>> getAllRoomArea(@RequestParam long immobileId) {
+        return new ResponseEntity<>(service.getAllRoomArea(immobileId), HttpStatus.OK);
     }
 
-    @GetMapping("/totalPrice")
+    @GetMapping("/total-price")
     public ResponseEntity<BigDecimal> getTotalPrice(@RequestParam long immobileId){
         return new ResponseEntity<>(service.getPrice(immobileId), HttpStatus.OK);
     }
 
-    @GetMapping("/area/{id}")
-    public ResponseEntity<ImmobileDTO> getImmobileTotalArea(@PathVariable long id) throws NotFoundException {
-        ImmobileDTO immobile = service.getImmobileTotalArea(id);
+    @GetMapping("/total-area")
+    public ResponseEntity<ImmobileDTO> getImmobileTotalArea(@RequestParam long immobileId) throws NotFoundException {
+        ImmobileDTO immobile = service.getImmobileTotalArea(immobileId);
         return  new ResponseEntity<ImmobileDTO>(immobile, HttpStatus.OK);
     }
 }
