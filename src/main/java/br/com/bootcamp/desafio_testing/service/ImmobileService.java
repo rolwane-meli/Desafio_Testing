@@ -20,6 +20,11 @@ public class ImmobileService implements IImmobileService {
     @Autowired
     private IImmobileRepo repo;
 
+    /**
+     * Método que encontra o maior cômodo de um imóvel
+     * @param idImmobile long
+     * @return Optional de Immobile
+     */
     @Override
     public Room getBiggestRoom(long idImmobile) {
         Optional<Immobile> immobile = repo.getById(idImmobile);
@@ -35,9 +40,15 @@ public class ImmobileService implements IImmobileService {
                 biggestRoom = r;
             }
         }
+
         return biggestRoom;
     }
 
+    /**
+     * Método que calcula o preço total de um imóvel
+     * @param immobileId long
+     * @return BigDecimal
+     */
     @Override
     public BigDecimal getPrice(long immobileId) {
         Optional<Immobile> immobile = repo.getById(immobileId);
@@ -56,6 +67,12 @@ public class ImmobileService implements IImmobileService {
         return totalPrice;
     }
 
+    /**
+     * Método que retorna a área total de um imóvel
+     * @param id int
+     * @return ImmobileDTO
+     * @throws NotFoundException Lançada quando o imóvel não é encontrado
+     */
     @Override
     public ImmobileDTO getImmobileTotalArea(long id) throws NotFoundException {
         Optional<Immobile> immobile = repo.getById(id);
@@ -66,19 +83,36 @@ public class ImmobileService implements IImmobileService {
         return new ImmobileDTO(immobile.get(),calculateTotalArea(immobile.get()));
     }
 
+    /**
+     * Método que calcula a área total de um imóvel
+     * @param immobile Objeto do tipo Immobile
+     * @return double
+     */
     private double calculateTotalArea(Immobile immobile){
        double totalArea = 0;
 
         for (Room room: immobile.getRoomList()) {
             totalArea += this.calculateRoomArea(room);
         }
+
         return totalArea;
     }
 
+    /**
+     * Método que calcula a área de um cômodo
+     * @param room Objeto do tipo Room
+     * @return double
+     */
     private double calculateRoomArea(Room room){
         return room.getLength() * room.getWidth();
     }
 
+    /**
+     * Método que retorna a área de todos os cômodos de um imóvel
+     * @param id int
+     * @return Lista de RoomDTO
+     * @throws NotFoundException Lançada quando o imóvel não é encontrado
+     */
     @Override
     public List<RoomDTO> getAllRoomArea(long id) throws NotFoundException{
         Optional<Immobile> immobile = repo.getById(id);

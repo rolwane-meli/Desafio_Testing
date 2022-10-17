@@ -17,6 +17,10 @@ public class ImmobileRepo implements IImmobileRepo {
 
     ObjectMapper mapper = new ObjectMapper();
 
+    /**
+     * Método que busca uma lista de imóveis
+     * @return Lista de Immobile
+     */
     @Override
     public List<Immobile> getAll() {
         List<Immobile> immobiles = null;
@@ -30,6 +34,11 @@ public class ImmobileRepo implements IImmobileRepo {
         return immobiles;
     }
 
+    /**
+     * Método que busca um imóvel por id
+     * @param id int
+     * @return Optional de Immobile
+     */
     @Override
     public Optional<Immobile> getById(long id) {
         List<Immobile> immobiles = this.getAll();

@@ -20,21 +20,42 @@ public class ImmobileController {
     @Autowired
     private IImmobileService service;
 
+    /**
+     * Método que retorna o maior cômodo de um imóvel
+     * @param immobileId long
+     * @return ResponseEntity - Room
+     */
     @GetMapping("/biggest-room")
     public ResponseEntity<Room> getBiggestRoom(@RequestParam long immobileId) {
         return new ResponseEntity<>(service.getBiggestRoom(immobileId), HttpStatus.OK);
     }
 
+    /**
+     * Método que retorna a área de todos os cômodos de um imóvel
+     * @param immobileId long
+     * @return ResponseEntity - Lista de RoomDTO
+     */
     @GetMapping("/all-rooms-area")
     public ResponseEntity<List<RoomDTO>> getAllRoomArea(@RequestParam long immobileId) {
         return new ResponseEntity<>(service.getAllRoomArea(immobileId), HttpStatus.OK);
     }
 
+    /**
+     * Método que retorna o preço total de um imóvel
+     * @param immobileId long
+     * @return ResponseEntity BigDecimal
+     */
     @GetMapping("/total-price")
     public ResponseEntity<BigDecimal> getTotalPrice(@RequestParam long immobileId){
         return new ResponseEntity<>(service.getPrice(immobileId), HttpStatus.OK);
     }
 
+    /**
+     * Método que retorna a área total de um imóvel
+     * @param immobileId long
+     * @return ResponseEntity ImmobileDTO
+     * @throws NotFoundException Lançada quando o imóvel não é encontrado
+     */
     @GetMapping("/total-area")
     public ResponseEntity<ImmobileDTO> getImmobileTotalArea(@RequestParam long immobileId) throws NotFoundException {
         ImmobileDTO immobile = service.getImmobileTotalArea(immobileId);
