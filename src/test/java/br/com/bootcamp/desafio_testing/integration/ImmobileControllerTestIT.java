@@ -4,6 +4,7 @@ import br.com.bootcamp.desafio_testing.service.ImmobileService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.log4j.Log4j2;
 import org.hamcrest.CoreMatchers;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -31,11 +32,11 @@ public class ImmobileControllerTestIT {
     private ObjectMapper objectMapper;
 
     @Test
+    @DisplayName("Testa Retorno do endpoint Immobile Total Area")
     void getImmobileTotalArea_returnTotalArea_whenExistImmobile() throws Exception {
-        long immobileId = 1;
 
         ResultActions response = mockMvc.perform(
-                get("/api/v1/immobile/area/{id}", immobileId)
+                get("/api/v1/immobile/total-area?immobileId=1")
                         .contentType(MediaType.APPLICATION_JSON) );
 
         response.andExpect(status().isOk())
